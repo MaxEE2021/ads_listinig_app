@@ -21,49 +21,51 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         title: Text("Edit Profile"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 25),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(img),
-                  radius: size.height*0.08,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 25),
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(img),
+                    radius: size.height*0.08,
+                  ),
                 ),
-              ),
-
-              CustomTextFieldWidget(
-                textType: TextInputType.text,
-                customHintText: "Full Name",
-              ),
-              CustomTextFieldWidget(
-                textType: TextInputType.emailAddress,
-                customHintText: "Email",
-              ),
-              CustomTextFieldWidget(
-                textType: TextInputType.number,
-                customHintText: "Phone Number",
-              ),
-
-              CustomButtonWidget(
-                buttonText: "Update Profile",
-              ),
-
-                 TextButton(
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(
-                          color: Colors.deepOrange
+      
+                CustomTextFieldWidget(
+                  textType: TextInputType.text,
+                  customHintText: "Full Name",
+                ),
+                CustomTextFieldWidget(
+                  textType: TextInputType.emailAddress,
+                  customHintText: "Email",
+                ),
+                CustomTextFieldWidget(
+                  textType: TextInputType.number,
+                  customHintText: "Phone Number",
+                ),
+      
+                CustomButtonWidget(
+                  buttonText: "Update Profile",
+                ),
+      
+                   TextButton(
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(
+                            color: Colors.deepOrange
+                          ),
                         ),
-                      ),
-                      onPressed: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LogInScreen()));
-                      }, 
-                    )
-
-            ],
+                        onPressed: (){
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LogInScreen()));
+                        }, 
+                      )
+      
+              ],
+            ),
           ),
         ),
       ),

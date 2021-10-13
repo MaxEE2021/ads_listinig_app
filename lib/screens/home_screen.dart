@@ -1,6 +1,12 @@
+
+import 'package:classified_app/screens/create_add_screen.dart';
 import 'package:classified_app/screens/edit_account_screen.dart';
+import 'package:classified_app/screens/my_adds_screen.dart';
 import 'package:classified_app/widgets/card_item_widget.dart';
+import 'package:classified_app/widgets/my_add_card_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'edit_add_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -18,7 +24,14 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_a_photo_outlined),
         backgroundColor: Colors.deepOrange,
-        onPressed: (){}
+        // onPressed: (){
+        //   Navigator.push(context, MaterialPageRoute(builder: (context) =>
+        //   MyAddsScreen()));
+        // }
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          CreateAddScreen()));
+        }
       ),
       appBar: AppBar(
         title: Text("Adds Listing"),
@@ -40,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(5.0),
           child: GridView.count(
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,

@@ -8,11 +8,13 @@ class CustomTextFieldWidget extends StatelessWidget {
   final String customHintText;
   final TextInputType textType;
   final bool isPassword;
+  final int customMaxLines;
 
   const CustomTextFieldWidget ({
     this.customHintText="Hint Text",
     this.textType= TextInputType.text,
     this.isPassword=false,
+    this.customMaxLines=1,
   });
 
 
@@ -22,6 +24,7 @@ class CustomTextFieldWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: TextField(
+          maxLines: customMaxLines,
           autofocus: false,
           keyboardType: textType,
           obscureText: isPassword,

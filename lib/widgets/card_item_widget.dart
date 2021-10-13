@@ -1,5 +1,7 @@
+
 import 'dart:ui';
 
+import 'package:classified_app/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class CardItemWidget extends StatefulWidget {
@@ -7,11 +9,13 @@ class CardItemWidget extends StatefulWidget {
   final String productTitle;
   final String price;
   final String img;
+  final VoidCallback? onTap;
 
   const CardItemWidget ({
     this.productTitle="Product Title",
     this.price="99999",
     this.img="",
+    this.onTap,
   });
 
   @override
@@ -24,52 +28,61 @@ class _CardItemWidgetState extends State<CardItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(widget.img) 
-              ),
-            )
-          ),
-
-          Column(
-            children: [
-              Expanded(
-                child: Container(
+      child: InkWell(
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(widget.img) 
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                color : Color(0x8f151515),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.productTitle,
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
-                      ),
-                      Text(
-                        "\$ ${widget.price}",
-                        style: TextStyle(
-                          color: Colors.orange
-                        ),
-                      ),
-                    ],
+              )
+            ),
+      
+            Column(
+              children: [
+                Expanded(
+                  child: Container(
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
+                Container(
+                  width: double.infinity,
+                  color : Color(0x8f151515),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.productTitle,
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
+                        ),
+                        Text(
+                          "\$ ${widget.price}",
+                          style: TextStyle(
+                            color: Colors.orange
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+        onTap: widget.onTap == null ? 
+          (){
+            print("you clicked the product");
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProducDetailsScreen()));
+          }
+          :
+          widget.onTap,
       ),
     );
   }
