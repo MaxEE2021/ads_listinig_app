@@ -1,11 +1,22 @@
+
+
+import 'dart:convert';
+// import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:classified_app/widgets/custom_btn_widget.dart';
 import 'package:classified_app/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'login_screen.dart';
+import 'package:http/http.dart' as http;
 
 class NewAccountScreen extends StatelessWidget {
-  const NewAccountScreen({Key? key}) : super(key: key);
+  // const NewAccountScreen({Key? key}) : super(key: key);
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var nameController = TextEditingController();
+  var numberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +69,22 @@ class NewAccountScreen extends StatelessWidget {
                   children: [
 
                     CustomTextFieldWidget(
+                      customTextFieldController: nameController,
                       customHintText: "Full Name",
                       textType: TextInputType.text,
                     ),
                     CustomTextFieldWidget(
+                      customTextFieldController: emailController,
                       customHintText: "Email Address",
                       textType: TextInputType.emailAddress,
                     ),
                     CustomTextFieldWidget(
+                      customTextFieldController: numberController,
                       customHintText: "Mobile Number",
                       textType: TextInputType.number,
                     ),
                     CustomTextFieldWidget(
+                      customTextFieldController: passwordController,
                       customHintText: "Password",
                       textType: TextInputType.text,
                       isPassword: true,
@@ -77,6 +92,13 @@ class NewAccountScreen extends StatelessWidget {
 
                     CustomButtonWidget(
                       buttonText: "Registe Now",
+                      buttonFunction: (){
+                        print("Regitration sended");
+                        print(nameController.text);
+                        print(emailController.text);
+                        print(passwordController.text);
+                        CreateNewAccount();
+                      },
                     ),
 
                     TextButton(
@@ -99,7 +121,55 @@ class NewAccountScreen extends StatelessWidget {
          
           ],
         ),
+        
       ),
     );
   }
+
+
+    Future<void> CreateNewAccount() async{
+      Map Jsonstring ={
+          "name":"sundar",
+          "email":"sundar@appmaking.co",
+          "password": "123456",
+          "mobile":"+919876543210"
+      };
+      Map Jsonstring2 ={
+        "name" : "${nameController.text}",
+        "email" : "${emailController.text}",
+        "pasword": "${passwordController.text}",
+        "mobile" : "${numberController.text}"
+      };
+
+    if(passwordController.text.isNotEmpty && emailController.text.isNotEmpty){
+      var response = await http.post(Uri.parse("https://adlisting.herokuapp.com/auth/register"),
+      body: (jsonEncode(Jsonstring)),
+      headers: {'Content-Type': 'application/json; charset=UTF-8',},
+      );
+      if(response.statusCode==200){
+        print("data sended to the server succesfully");
+        // print(response.body);
+        var resp = json.decode(response.body);
+        // print(resp);
+        if(resp["status"]=="true"){
+          print(resp["data"]["userId"]);
+          var userId = resp["data"]["userId"];
+        }
+        else{
+          print(resp["message"]);
+        }
+      }
+      else{
+        print("an erro has ocurred");
+        print(response.statusCode);
+        print(response.headers);
+        print(response.body);
+      }
+    }
+    else{
+      print("the fields must be filled");
+    }
+    
+  }
 }
+

@@ -9,12 +9,14 @@ class CustomTextFieldWidget extends StatelessWidget {
   final TextInputType textType;
   final bool isPassword;
   final int customMaxLines;
+  final TextEditingController? customTextFieldController;
 
   const CustomTextFieldWidget ({
     this.customHintText="Hint Text",
     this.textType= TextInputType.text,
     this.isPassword=false,
     this.customMaxLines=1,
+    this.customTextFieldController,
   });
 
 
@@ -24,6 +26,7 @@ class CustomTextFieldWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: TextField(
+          controller: customTextFieldController,
           maxLines: customMaxLines,
           autofocus: false,
           keyboardType: textType,

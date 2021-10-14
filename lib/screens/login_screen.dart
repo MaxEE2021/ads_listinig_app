@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:classified_app/screens/home_screen.dart';
 import 'package:classified_app/screens/new_account_screen.dart';
 import 'package:classified_app/widgets/custom_btn_widget.dart';
 import 'package:classified_app/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LogInScreen extends StatelessWidget {
-  const LogInScreen({Key? key}) : super(key: key);
+   var emailController = TextEditingController();
+   var passwordController = TextEditingController();
+  
+  // const LogInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +64,12 @@ class LogInScreen extends StatelessWidget {
                   children: [
 
                     CustomTextFieldWidget(
+                      customTextFieldController: emailController,
                       customHintText: "Email",
                       textType: TextInputType.emailAddress,
                     ),
                     CustomTextFieldWidget(
+                      customTextFieldController: passwordController,
                       customHintText: "Password",
                       textType: TextInputType.text,
                       isPassword: true,
@@ -70,7 +78,8 @@ class LogInScreen extends StatelessWidget {
                     CustomButtonWidget(
                       buttonText: "Login",
                       buttonFunction: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                        logInRequest();
                       },
                     ),
 
@@ -96,5 +105,42 @@ class LogInScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  var url = "https://adlisting.herokuapp.com/auth/login";
+  
+  Future<void> logInRequest() async{
+
+
+    // Map JsonString ={
+    //   "email": "${emailController.text}",
+    //   "password": "${passwordController.text}"
+    // };
+    Map jsonString ={
+      "email":"raja@appmaking.co",
+      "password": "123456"
+    };
+    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+      try{
+        await http.post(
+          Uri.parse(url),
+          headers: {'Content-Type': 'application/json; charset=UTF-8',},
+          body: jsonEncode(jsonString)
+        ).then((response) {
+          print("succesfully conecnted to the server");
+          print(response.statusCode);
+          var resp = json.decode(response.body);
+          print(resp);
+        }).catchError((e){
+          print("an error ocurred");
+          print(e);
+        });
+      }
+      catch(e){
+        print(e);
+      }
+    }
+    else{
+      print("Please fill all the fields");
+    }
   }
 }
