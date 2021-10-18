@@ -120,22 +120,22 @@ class _LogInScreenState extends State<LogInScreen> {
   Future<void> logInRequest() async{
   var url = "https://adlisting.herokuapp.com/auth/login";
 
-    // Map jsonString ={
-    //   "email"   : "${emailController.text}",
-    //   "password": "${passwordController.text}"
-    // };
-    Map jsonString2 ={
-      "email":"MaxEE@appmaking.co",
-      "password": "123456"
-    };
-    Map jsonString3 ={
-      "email":"MaxEE3@appmaking.co",
-      "password": "123456"
-    };
     Map jsonString ={
-      "email":"MaxEE2@appmaking.co",
-      "password": "123456"
+      "email"   : "${emailController.text}",
+      "password": "${passwordController.text}"
     };
+    // Map jsonString2 ={
+    //   "email":"MaxEE@appmaking.co",
+    //   "password": "123456"
+    // };
+    // Map jsonString3 ={
+    //   "email":"MaxEE3@appmaking.co",
+    //   "password": "123456"
+    // };
+    // Map jsonString ={
+    //   "email":"MaxEE2@appmaking.co",
+    //   "password": "123456"
+    // };
     
     if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
       try{
