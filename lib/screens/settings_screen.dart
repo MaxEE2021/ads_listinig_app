@@ -6,6 +6,7 @@ import 'package:classified_app/screens/edit_account_screen.dart';
 import 'package:classified_app/screens/my_adds_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class SettingsScreen extends StatefulWidget {
@@ -13,9 +14,20 @@ class SettingsScreen extends StatefulWidget {
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
+  
 }
 
+
 class _SettingsScreenState extends State<SettingsScreen> {
+  
+  Future<void> _launchOtherApp(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+  
   APIData _user = Get.put(APIData());
   @override
   Widget build(BuildContext context) {
@@ -131,7 +143,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              onTap: (){},
+              onTap: (){
+                _launchOtherApp("https://appmaking.co/flutter-courses/");
+              },
             ),
             InkWell(
               child: Container(
@@ -154,7 +168,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
               ),
-              onTap: (){},
+              onTap: (){
+                _launchOtherApp("https://appmaking.co/flutter-courses/");
+              },
             ),
           ],
         ),
