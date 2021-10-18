@@ -1,7 +1,23 @@
+import 'package:classified_app/screens/edit_add_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyAddCardWidget extends StatelessWidget {
-  const MyAddCardWidget({Key? key}) : super(key: key);
+  // const MyAddCardWidget({Key? key}) : super(key: key);
+  final String img;
+  final String title;
+  final String price;
+  final List? images;
+  final String addID;
+  
+  const MyAddCardWidget ({
+    this.img="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-xcWvwdrImsw%2FXvBUGEeyuHI%2FAAAAAAAChoE%2FDNsscKqWxmMKNDaEZrKVd9uE6baHrg7ggCLcBGAsYHQ%2Fs1600%2Fscarlett-johansson-under-the-skin-premiere-in-venice-20.jpg&f=1&nofb=1",
+    this.title="Product Title",
+    this.price="\$2000",
+    this.images,
+    this.addID="",
+  });
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +37,7 @@ class MyAddCardWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-xcWvwdrImsw%2FXvBUGEeyuHI%2FAAAAAAAChoE%2FDNsscKqWxmMKNDaEZrKVd9uE6baHrg7ggCLcBGAsYHQ%2Fs1600%2Fscarlett-johansson-under-the-skin-premiere-in-venice-20.jpg&f=1&nofb=1")
+                    image: NetworkImage(images![0])
                   )
                 ),
               ),
@@ -32,7 +48,7 @@ class MyAddCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Samsung for sale",
+                    title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18
@@ -53,7 +69,7 @@ class MyAddCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "\$2000",
+                    price,
                     style: TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold
@@ -67,6 +83,10 @@ class MyAddCardWidget extends StatelessWidget {
       ),
       onTap: (){
         print("you pressed my add card widget");
+        Get.to(EditAddScreen(
+          images: images,
+          addID: addID,
+        ));
       },
     );
   }

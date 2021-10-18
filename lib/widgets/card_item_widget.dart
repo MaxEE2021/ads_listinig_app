@@ -9,13 +9,19 @@ class CardItemWidget extends StatefulWidget {
   final String productTitle;
   final String price;
   final String img;
+  final String description;
   final VoidCallback? onTap;
+  final List? images;
+  final String mobile;
 
   const CardItemWidget ({
     this.productTitle="Product Title",
     this.price="99999",
     this.img="",
+    this.description="product desc",
     this.onTap,
+    this.images,
+    this.mobile="",
   });
 
   @override
@@ -79,7 +85,14 @@ class _CardItemWidgetState extends State<CardItemWidget> {
         onTap: widget.onTap == null ? 
           (){
             print("you clicked the product");
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ProducDetailsScreen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProducDetailsScreen(
+              title : widget.productTitle,
+              price: widget.price,
+              img: widget.img,
+              desc: widget.description,
+              images: widget.images,
+              mobile: widget.mobile,
+            )));
           }
           :
           widget.onTap,

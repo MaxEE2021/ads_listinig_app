@@ -128,23 +128,38 @@ class NewAccountScreen extends StatelessWidget {
 
 
     Future<void> CreateNewAccount() async{
-      Map Jsonstring ={
-          "name":"sundar",
-          "email":"sundar@appmaking.co",
-          "password": "123456",
-          "mobile":"+919876543210"
-      };
-      Map Jsonstring2 ={
-        "name" : "${nameController.text}",
-        "email" : "${emailController.text}",
-        "pasword": "${passwordController.text}",
+      // Map jsonstring ={
+      //     "name":"Maximiliano",
+      //     "email":"MaxEE@appmaking.co",
+      //     "password": "123456",
+      //     "mobile":"+529994419210"
+      // };
+      Map jsonstring2 ={
+        "name"   : "${nameController.text}",
+        "email"  : "${emailController.text}",
+        "password": "${passwordController.text}",
         "mobile" : "${numberController.text}"
       };
+      Map jsonstring ={
+        "name":"sundar2",
+        "email":"sundar2@appmaking.co",
+        "password": "123456",
+        "mobile":"+919876543210"
+      };
+      Map<String,String> newAccountHeaders={
+      'Content-type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      // 'Authorization':'Barrer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTYxN2JlOWUwNWQ5ZjQxYjk5Zjk1NmYiLCJpYXQiOjE2MzQ0NDAzNDl9.c550V7UtiICZ66flyzmdo7O0Sksvh1Oq4kFbOf6um7o'
+    };
 
     if(passwordController.text.isNotEmpty && emailController.text.isNotEmpty){
+      print(jsonstring);
+      print("Jsonstring2 empieza");
+      print(jsonstring2);
       var response = await http.post(Uri.parse("https://adlisting.herokuapp.com/auth/register"),
-      body: (jsonEncode(Jsonstring)),
-      headers: {'Content-Type': 'application/json; charset=UTF-8',},
+      headers: newAccountHeaders,
+      // headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      body: (jsonEncode(jsonstring2)),
       );
       if(response.statusCode==200){
         print("data sended to the server succesfully");

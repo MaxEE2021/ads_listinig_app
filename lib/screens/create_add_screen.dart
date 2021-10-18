@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
+import 'package:classified_app/models/controllers.dart';
 import 'package:classified_app/widgets/custom_btn_widget.dart';
 import 'package:classified_app/widgets/gallery_item_widget.dart';
 import 'package:classified_app/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class CreateAddScreen extends StatefulWidget {
   CreateAddScreen({Key? key}) : super(key: key);
@@ -15,6 +19,12 @@ class CreateAddScreen extends StatefulWidget {
 }
 
 class _CreateAddScreenState extends State<CreateAddScreen> {
+ APIData _user = Get.put(APIData());
+  var titleController = TextEditingController();
+  var priceController = TextEditingController();
+  var numberController = TextEditingController();
+  var desController = TextEditingController();
+
   var isCaptured = false;
   var path;
   List path2=[];
@@ -156,18 +166,22 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
 
 
               CustomTextFieldWidget(
+                customTextFieldController: titleController,
                 customHintText: "Title",
                 textType: TextInputType.text,
               ),
               CustomTextFieldWidget(
+                customTextFieldController: priceController,
                 customHintText: "Price",
                 textType: TextInputType.number,
               ),
               CustomTextFieldWidget(
+                customTextFieldController: numberController,
                 customHintText: "Contact Number",
                 textType: TextInputType.number,
               ),
               CustomTextFieldWidget(
+                customTextFieldController: desController,
                 customHintText: "Description",
                 textType: TextInputType.text,
                 customMaxLines: 3,
@@ -175,6 +189,9 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
 
               CustomButtonWidget(
                 buttonText: "Submit Ad",
+                buttonFunction: (){
+                  createNewAd();
+                },
               )
               
             ],
@@ -183,4 +200,51 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
       ),
     );
   }
+
+
+  Future createNewAd()async{
+    var url = "https://adlisting.herokuapp.com/ads"; 
+    Map<String,String> createAdHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Barrer ${_user.userToken}'
+    };
+    Map createAdBody = {
+      "title": "${titleController.text}",
+      "description": "${desController.text}",
+      "price": priceController.text,  ///has to be int
+      "mobile": "${numberController.text}",
+      "images":[
+        "https://i.ytimg.com/vi/HBjpKfCZ5b4/maxresdefault.jpg",
+        "https://i.ytimg.com/vi/HBjpKfCZ5b4/maxresdefault.jpg"
+      ]
+    };
+
+    if(titleController.text.isNotEmpty  && numberController.text.isNotEmpty && priceController.text.isNotEmpty){
+      try{
+        await http.post(
+          Uri.parse(url),
+          headers: createAdHeaders,
+          body: jsonEncode(createAdBody),
+        ).then((response) {
+          print("succesfully conecnted to uploadNewAd server");
+          print("new ad created");
+          print(response.statusCode);
+          var resp = json.decode(response.body);
+          print(resp);
+        }).catchError((e){
+          print(e);
+          print("an error has occured in edit account screen");
+        });
+      }
+      catch(e){
+        print(e);
+      }
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Fill the blank spaces")));
+    }
+
+  }
+
 }

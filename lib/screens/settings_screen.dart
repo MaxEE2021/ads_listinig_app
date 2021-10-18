@@ -1,12 +1,22 @@
 
 
+
+import 'package:classified_app/models/controllers.dart';
 import 'package:classified_app/screens/edit_account_screen.dart';
 import 'package:classified_app/screens/my_adds_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class SettingsScreen extends StatelessWidget {
+
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  APIData _user = Get.put(APIData());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +38,8 @@ class SettingsScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(right:34.0),
                     child: CircleAvatar(
                       radius: 26,
-                      backgroundImage: NetworkImage("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-xcWvwdrImsw%2FXvBUGEeyuHI%2FAAAAAAAChoE%2FDNsscKqWxmMKNDaEZrKVd9uE6baHrg7ggCLcBGAsYHQ%2Fs1600%2Fscarlett-johansson-under-the-skin-premiere-in-venice-20.jpg&f=1&nofb=1"),
+                      // backgroundImage: NetworkImage("img"),
+                      backgroundImage: NetworkImage(_user.usereData["imgURL"]),
                     ),
                   ),
                   Expanded(
@@ -36,13 +47,15 @@ class SettingsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Name",
+                          // "username",
+                          _user.usereData["name"],
                           style: TextStyle(
                             fontSize: 18
                           ),
                         ),
                         Text(
-                          "9999545",
+                          // "99999999",
+                          _user.usereData["mobile"],
                           style: TextStyle(
                             color: Colors.black45,
                             fontSize: 16
@@ -61,6 +74,9 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
               onTap: (){
+                setState(() {
+                  
+                });
                 Navigator.push(context, MaterialPageRoute(builder: (context) =>
                 EditAccountScreen()));
         },
@@ -146,4 +162,5 @@ class SettingsScreen extends StatelessWidget {
       ),
     );
   }
+
 }
