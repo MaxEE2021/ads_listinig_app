@@ -117,6 +117,7 @@ class _EditAddScreenState extends State<EditAddScreen> {
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
+                      // itemCount: widget.images!.length,
                       itemCount: widget.images!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(

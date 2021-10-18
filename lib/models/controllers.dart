@@ -9,6 +9,8 @@ class APIData extends GetxController{
   String userToken = "hola token";
   String userID = "UserID";
 
+  List imagesUploaded=[];
+
   // getToken(String token){
   //   userToken=token;
   // }
@@ -123,6 +125,48 @@ class APIData extends GetxController{
   //   }
 
   // }
+
+  // Future<void> uploadImages(photosPath) async{
+  //   print("Aqui token var ${userToken}");
+  //   var url="https://adlisting.herokuapp.com/upload/photos";
+  //   Map<String,String> updateImagesheaders={
+  //     'Content-type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Barrer ${userToken}'
+  //   };
+  //   Map updateImagesbody ={
+  //     "photos":{photosPath},
+  //   };
+  //   var map = new Map<String, dynamic>();
+  //   map['photos'] ={photosPath} ;
+  //   map['photos'].add(photosPath);
+  //     try{
+  //       await http.post(
+  //         Uri.parse(url),
+  //         // headers: userheaders,
+  //         // body: jsonEncode(jsonString)
+  //         body: updateImagesbody
+  //         // body: map
+  //       ).then((response) {
+  //         print("Updating photos to the server");
+
+  //         print(response.statusCode);
+  //         print(response.body);
+  //         var resp = json.decode(response.body);
+  //         print(resp["data"]);
+  //         var urlPhotos = resp["data"];
+         
+  //       }).catchError((e){
+  //         print("an error has ocurred photos cant be updated to server");
+  //         print(e);
+  //       });
+  //     }
+  //     catch(e){
+  //       print(e);
+  //     }
+  // }
+
+  
 
 
 

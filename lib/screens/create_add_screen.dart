@@ -28,6 +28,8 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
   var isCaptured = false;
   var path;
   List path2=[];
+  // var imagesUploaded = [];
+  var localImages=[];
 
   Future capture()async{
     final image = await ImagePicker().pickImage(source: ImageSource.gallery).then((file){
@@ -52,8 +54,37 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
         setState(() {
           isCaptured=true;
         });
+        // _user.updateImages(path2);
       });
     }
+
+    Future myfunction () async{
+    // var imagesUploaded = [];
+    var apiUrlAdPictures=Uri.parse("https://adlisting.herokuapp.com/upload/photos"); 
+    var images = await ImagePicker().pickMultiImage();
+      var request = http.MultipartRequest('POST', apiUrlAdPictures);
+      images!.forEach((image) async {
+        print(image.path.toString());
+        localImages.add(image.path.toString());
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'photos',
+            image.path,
+          ),
+        );
+      });
+      var response = await http.Response.fromStream(await request.send());
+      var data = json.decode(response.body);
+      print(data["data"]);
+      // imagesUploaded=data["data"]["path"];
+      // print("LocalImagesPath:  ${localImages}");
+      setState(() {
+          _user.imagesUploaded=data["data"]["path"];
+          isCaptured=true;
+        });
+    }
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -104,7 +135,9 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
                   onPressed: (){
                     print("upload a picture");
                     // capture();
-                    caputureMultipleImg();
+                    // caputureMultipleImg();
+                    myfunction();
+                    // caputureMultipleImg();
 
                   },
 
@@ -132,12 +165,12 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
                     height: 100,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: path2.length,
+                      itemCount: _user.imagesUploaded.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal:8.0),
                           child: GalerryItemWidget(
-                            fileimg: path2[index],
+                            fileimg: _user.imagesUploaded[index],
                           ),
                         );
                       },
@@ -203,6 +236,7 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
 
 
   Future createNewAd()async{
+    // _user.updateImages(path2);
     var url = "https://adlisting.herokuapp.com/ads"; 
     Map<String,String> createAdHeaders = {
       'Content-type': 'application/json',
@@ -214,10 +248,7 @@ class _CreateAddScreenState extends State<CreateAddScreen> {
       "description": "${desController.text}",
       "price": priceController.text,  ///has to be int
       "mobile": "${numberController.text}",
-      "images":[
-        "https://i.ytimg.com/vi/HBjpKfCZ5b4/maxresdefault.jpg",
-        "https://i.ytimg.com/vi/HBjpKfCZ5b4/maxresdefault.jpg"
-      ]
+      "images":_user.imagesUploaded,
     };
 
     if(titleController.text.isNotEmpty  && numberController.text.isNotEmpty && priceController.text.isNotEmpty){

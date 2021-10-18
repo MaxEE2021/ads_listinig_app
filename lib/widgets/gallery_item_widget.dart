@@ -47,7 +47,8 @@ class GalerryItemWidget extends StatelessWidget {
                     color: Colors.yellow,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: FileImage(File(fileimg))
+                      image:NetworkImage(fileimg),
+                      // image: FileImage(File(fileimg))
                     )
                   ),
                 )
